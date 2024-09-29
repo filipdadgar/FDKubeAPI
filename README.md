@@ -7,6 +7,12 @@ This is a Flask application that hosts a Kubernetes API. It can currently fetch 
 - **Fetch Pods**: Retrieve and display a list of pods. Each pod is displayed as a clickable link that takes you to the pod's details page.
 - **Fetch Namespaces**: Retrieve and display a list of namespaces.
 - **Fetch Persistent Volumes**: Retrieve and display a list of persistent volumes and their corresponding PVCs.
+- **Fetch Nodes**: Retrieve and display a list of nodes.
+- **Fetch Cluster Information**: Retrieve and display cluster information.
+- **Fetch Events**: Retrieve and display a list of events.
+- **Restart Pod**: Restart a pod.
+- **Scale Pod**: Scale a pod to 0.
+
 
 ## Usage
 
@@ -18,6 +24,10 @@ The application is hosted on port `5000`.
 - `/api/v1/persistentvolumes`: Fetches a list of persistent volumes.
 - `/api/v1/nodes`: Fetches a list of nodes.
 - `/api/v1/cluster-info`: Fetches cluster information.
+- `/api/v1/namespaces/<namespace>/pods/<pod_name>`: Fetches a list of pods for a given namespace.
+- `/api/v1/events`: Fetches a list of events.
+- `//api/v1/namespaces/<namespace>/pods/<pod_name>/restart`: Restarts the pod.
+- `/api/v1/namespaces/<namespace>/pods/<pod_name>/scale`: Scales the pod to 0.
 
 ### Running the Application
 
