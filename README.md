@@ -52,6 +52,33 @@ You can also run the application using Docker.
     docker run -p 5000:5000 filipdadgar/fdk8api
     ```
 
+## Kubernetes Deployment
+
+### Prerequisites
+
+- Kubernetes cluster
+- `kubectl` configured to interact with your cluster
+
+### Deploying the Application
+
+1. **Ensure your Docker image is pushed to Docker Hub**:
+    ```sh
+    docker push filipdadgar/fdk8api:latest
+    ```
+
+2. **Apply the Kubernetes manifest**:
+    ```sh
+    kubectl apply -f deployment.yaml
+    ```
+
+3. **Verify the Deployment and Service**:
+    ```sh
+    kubectl get deployments
+    kubectl get services
+    ```
+
+This will deploy your Flask application to a Kubernetes cluster and expose it via a LoadBalancer service.
+
 ## Development
 
 ### Prerequisites

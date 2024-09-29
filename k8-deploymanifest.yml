@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fdk8api-deployment
+  labels:
+    app: fdk8api
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: fdk8api
+  template:
+    metadata:
+      labels:
+        app: fdk8api
+    spec:
+      containers:
+      - name: fdk8api
+        image: filipdadgar/fdk8api:latest
+        ports:
+        - containerPort: 5000
+        resources:
+          limits:
+            cpu: "500m"
+            memory: "512Mi"
+          requests:
+            cpu: "250m"
+            memory: "256Mi"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: fdk8api-service
+spec:
+  selector:
+    app: fdk8api
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 5000
+  type: LoadBalancer
