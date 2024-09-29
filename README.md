@@ -61,17 +61,12 @@ You can also run the application using Docker.
 
 ### Deploying the Application
 
-1. **Ensure your Docker image is pushed to Docker Hub**:
+1. **Apply the Kubernetes manifest**:
     ```sh
-    docker push filipdadgar/fdk8api:latest
+    kubectl apply -f k8-deploymanifest.yml
     ```
 
-2. **Apply the Kubernetes manifest**:
-    ```sh
-    kubectl apply -f deployment.yaml
-    ```
-
-3. **Verify the Deployment and Service**:
+2. **Verify the Deployment and Service**:
     ```sh
     kubectl get deployments
     kubectl get services
