@@ -152,6 +152,29 @@ def get_events():
         event_list.append(event_info)
     return jsonify({'items': event_list})
 
+@app.route('/api/v1/namespaces/<namespace>/pods/<pod_name>/restart', methods=['POST'])
+def restart_pod(namespace, pod_name):
+    v1 = client.CoreV1Api()
+    try:
+        v1.delete_namespaced_pod(name=pod_name, namespace=namespace)
+        return jsonify({"success": True})
+    except client.exceptions.ApiException as e:
+        return jsonify({"success": False, "error": str(e)}), 400
+
+@app.route('/api/v1/namespaces/<namespace>/pods/<pod_name>/scale', methods=['POST'])
+def scale_pod(namespace, pod_name):
+    v1 = client.AppsV1Api()
+    try:
+        body = {
+            "spec": {
+                "replicas": 0
+            }
+        }
+        v1.patch_namespaced_deployment_scale(name=pod_name, namespace=namespace, body=body)
+        return jsonify({"success": True})
+    except client.exceptions.ApiException as e:
+        return jsonify({"success": False, "error": str(e)}), 400
+
 if __name__ == '__main__':
     os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
     if os.path.exists(app.config['KUBECONFIG_PATH']):

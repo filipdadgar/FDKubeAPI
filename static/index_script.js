@@ -52,6 +52,7 @@ function fetchPods() {
                 const statusCell = row.insertCell(2);
                 const ipCell = row.insertCell(3);
                 const loadBalancerCell = row.insertCell(4);
+                const actionsCell = row.insertCell(5);
 
                 const podLink = document.createElement('a');
                 podLink.href = `pod_description.html?namespace=${pod.namespace}&pod_name=${pod.name}`;
@@ -62,7 +63,19 @@ function fetchPods() {
                 statusCell.textContent = pod.status;
                 ipCell.textContent = pod.ip;
                 loadBalancerCell.textContent = pod.service_loadbalancer_ip || 'N/A';
-                console.log(pod.service_loadbalancer_ip)
+                
+                const restartButton = document.createElement('button');
+                restartButton.textContent = 'Restart';
+                restartButton.className = 'restart-button';
+                restartButton.onclick = () => restartPod(pod.namespace, pod.name);
+
+                const scaleButton = document.createElement('button');
+                scaleButton.textContent = 'Scale to 0';
+                scaleButton.className = 'scale-button';
+                scaleButton.onclick = () => scalePod(pod.namespace, pod.name);
+
+                actionsCell.appendChild(restartButton);
+                actionsCell.appendChild(scaleButton);
             });
         })
         .catch(error => console.error('Error fetching pods:', error));
@@ -214,6 +227,44 @@ function loadKubernetesInfo() {
     fetchNamespaces();
     fetchNodeInfo();
     fetchPersistentVolumes();
+}
+
+function restartPod(namespace, podName) {
+    fetch(`/api/v1/namespaces/${namespace}/pods/${podName}/restart`, { method: 'POST' })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data.success) {
+                alert(`Pod ${podName} restarted successfully.`);
+                fetchPods();
+            } else {
+                alert(`Failed to restart pod ${podName}: ${data.error}`);
+            }
+        })
+        .catch(error => console.error('Error restarting pod:', error));
+}
+
+function scalePod(namespace, podName) {
+    fetch(`/api/v1/namespaces/${namespace}/pods/${podName}/scale`, { method: 'POST' })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data.success) {
+                alert(`Pod ${podName} scaled to 0 successfully.`);
+                fetchPods();
+            } else {
+                alert(`Failed to scale pod ${podName}: ${data.error}`);
+            }
+        })
+        .catch(error => console.error('Error scaling pod:', error));
 }
 
 window.onload = function() {
