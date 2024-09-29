@@ -133,6 +133,25 @@ def get_persistentvolumes():
         persistentvolume_list.append(persistentvolume_info)  # Append to the list
     return jsonify({'items': persistentvolume_list})
 
+@app.route('/events.html')
+def events():
+    return render_template('events.html')
+
+@app.route('/api/v1/events', methods=['GET'])
+def get_events():
+    v1 = client.CoreV1Api()
+    events = v1.list_event_for_all_namespaces()
+    event_list = []
+    for event in events.items:
+        event_info = {
+            'type': event.type,
+            'reason': event.reason,
+            'message': event.message,
+            'timestamp': event.last_timestamp
+        }
+        event_list.append(event_info)
+    return jsonify({'items': event_list})
+
 if __name__ == '__main__':
     os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
     if os.path.exists(app.config['KUBECONFIG_PATH']):

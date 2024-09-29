@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kubernetes Events</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <h1>Kubernetes Events</h1>
+    <table id="eventsTable">
+        <thead>
+            <tr>
+                <th>Type</th>
+                <th>Reason</th>
+                <th>Message</th>
+                <th id="timestampHeader">Timestamp <span class="sort-arrow" id="sortArrow">▲</span></th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+    <script src="static/events_script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', fetchEvents);
+    </script>
+</body>
+</html>
