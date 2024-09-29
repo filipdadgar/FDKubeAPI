@@ -49,12 +49,12 @@ You can also run the application using Docker.
 
 1. **Build the Docker Image**:
     ```sh
-    docker build -t my-flask-app .
+    docker build -t FDKubeAPI .
     ```
 
 2. **Run the Docker Container**:
     ```sh
-    docker run -p 5000:5000 my-flask-app
+    docker run -p 5000:5000 FDKubeAPI
     ```
 
 **Run the Docker Container without building**:
@@ -96,8 +96,8 @@ This will deploy FDK8API application to a Kubernetes cluster and expose it via a
 
 1. **Clone the Repository**:
     ```sh
-    git clone https://github.com/yourusername/your-repo.git
-    cd your-repo
+    git clone https://github.com/filipdadgar/FDKubeAPI.git
+    cd FDKubeAPI
     ```
 
 2. **Create a Virtual Environment**:
