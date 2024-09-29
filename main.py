@@ -17,6 +17,16 @@ def set_kube_api_server_from_kubeconfig(kubeconfig_path):
         api_server = 'https://' + api_server
     os.environ['KUBE_API_SERVER'] = api_server
 
+def get_service_loadbalancer_ip(namespace, pod_name):
+    v1 = client.CoreV1Api()
+    services = v1.list_namespaced_service(namespace=namespace)
+    for service in services.items:
+        # Check if the service selector matches the pod labels
+        if service.spec.selector and all(item in pod_name.items() for item in service.spec.selector.items()):
+            if service.status.load_balancer and service.status.load_balancer.ingress:
+                return service.status.load_balancer.ingress[0].ip
+    return None
+
 @app.route('/')
 def index():
     kubeconfig_exists = os.path.exists(app.config['KUBECONFIG_PATH'])
@@ -69,7 +79,8 @@ def get_pods(namespace):
             'name': pod.metadata.name,
             'namespace': pod.metadata.namespace,
             'status': pod.status.phase,
-            'ip': pod.status.pod_ip
+            'ip': pod.status.pod_ip,
+                        'service_loadbalancer_ip': get_service_loadbalancer_ip(namespace, pod.metadata.labels)
         }
         pod_list.append(pod_info)
     return jsonify({'items': pod_list})
