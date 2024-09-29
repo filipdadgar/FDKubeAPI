@@ -48,7 +48,7 @@ You can also run the application using Docker.
     ```
 
 **Run the Docker Container without building**:
-    ```sh
+    ```
     docker run -p 5000:5000 filipdadgar/fdk8api
     ```
 
