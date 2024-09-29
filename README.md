@@ -72,7 +72,7 @@ You can also run the application using Docker.
     kubectl get services
     ```
 
-This will deploy your Flask application to a Kubernetes cluster and expose it via a LoadBalancer service.
+This will deploy FDK8API application to a Kubernetes cluster and expose it via a LoadBalancer service.
 
 ## Development
 
