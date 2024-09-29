@@ -275,14 +275,6 @@
             fetchPersistentVolumes();
         }
 
-
-        // Fetch cluster info, namespaces, node info, and persistent volumes on page load
-        // window.onload = function() {
-        //     fetchClusterInfo();
-        //     fetchNamespaces();
-        //     fetchNodeInfo();
-        //     fetchPersistentVolumes();
-        // };
         window.onload = function() {
             const kubeconfigUploaded = sessionStorage.getItem('kubeconfigUploaded');
             
