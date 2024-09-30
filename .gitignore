@@ -1,2 +1,7 @@
 /uploads
+/.env
 *.pyyc
+*.pyo
+*.pyd
+# Cache
+*__pycache__
