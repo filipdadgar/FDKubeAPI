@@ -41,7 +41,13 @@ def upload_kubeconfig():
         file = request.files['kubeconfig']
         if file.filename != '':
             filename = secure_filename(file.filename)
+            upload_folder = app.config['UPLOAD_FOLDER']
             filepath = app.config['KUBECONFIG_PATH']
+
+            # Ensure the upload directory exists
+            if not os.path.exists(upload_folder):
+                os.makedirs(upload_folder)
+
             file.save(filepath)
             set_kube_api_server_from_kubeconfig(filepath)
             return jsonify({"success": True})
