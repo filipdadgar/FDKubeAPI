@@ -17,6 +17,7 @@ spec:
       containers:
       - name: fdk8api
         image: filipdadgar/fdk8api:latest
+        imagePullPolicy: Always
         ports:
         - containerPort: 5000
         resources:
